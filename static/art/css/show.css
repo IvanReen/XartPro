@@ -1,0 +1,101 @@
+#left {
+    border: 0px solid blue;
+    height: 500px;
+}
+
+#img_div{
+    overflow: hidden;
+    background-color: red;
+}
+
+#left img:hover{
+    transform: scale3d(1.1, 1.1, 1.1);
+    transition: transform ease-in 0.5s;
+}
+
+#right {
+    border: 1px solid red;
+    height: 400px;
+}
+
+#right h4 {
+    background-color: lightblue;
+    margin: 0;
+    padding: 5px;
+    text-align: center;
+}
+
+#right ul,li {
+    list-style: none;
+    padding: 0;
+    margin: 5px;
+    font-size: 14px;
+}
+
+#right li {
+    border-bottom: 1px dotted lightblue;
+}
+
+#right li span {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    background-color: lightgray;
+}
+
+#right .no1 {
+    background-color: orangered;
+    margin: 2px;
+    color: white;
+}
+
+#right .no2 {
+    background-color: palevioletred;
+    margin: 2px;
+    color: white;
+}
+
+#right .no3 {
+    background-color: lightblue;
+    margin: 2px;
+    color: darkblue;
+}
+#tag_ul {
+    margin: 0;
+    padding: 0;
+}
+
+#tag_ul:after{
+    display: block;
+    height: 0px;
+    content: '';
+    overflow: hidden;
+    clear: both;
+    visibility: hidden;
+}
+
+#tag_ul li{
+    float: left;
+    width: 55px;
+    height: 20px;
+    font-size: 12px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+#tag_ul .tag{
+    color: blue;
+    border: 1px solid blue;
+}
+
+#tag_ul .cate{
+    color: red;
+    border: 1px solid red;
+}
+
+#left .art_content {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid lightgray;
+}

@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link rel="stylesheet" href="/static/art/css/show.css">
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-xs-8">
+            <div id="left">
+                <div class="row">
+                    <div class="col-xs-3">
+                        <div id="img_div">
+                            <img src="/static/upload/{{ art.cover }}"
+                                 width="100px" height="124">
+                        </div>
+                    </div>
+
+                    <div class="col-xs-9 text-left">
+
+                        <h4 style="display: inline-block">{{ art.title }}</h4>
+                        <span style="margin-left: 60px"> {{ art.author }} 著</span>
+                        <ul id="tag_ul">
+                            {% for tag in art.tags.all %}
+                                <li class="tag">{{ tag.name }}</li>
+                            {% endfor %}
+                            <li class="cate">
+                                {{ art.category.parent.title }}
+                            </li>
+                            <li class="cate">
+                                {{ art.category.title }}
+                            </li>
+                        </ul>
+                        <div style="margin: 5px 0">
+                            <span>{{ art.summary }}</span>
+                        </div>
+                        <div>
+                            <a class="btn btn-sm btn-default">阅读</a>
+                            <a id="qBuyBtn"
+                               onclick="qBuy({{ art.id }})"
+                               class="btn btn-sm btn-primary">抢读</a>
+                            <a class="btn btn-sm btn-info">加入书架</a>
+                            <a class="btn  btn-sm btn-danger">投票</a>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <h4>详细说明</h4>
+                    <div class="art_content">
+                        <span>{{ art.content|safe }}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-xs-4">
+            <div id="right">
+                <h4>周排行</h4>
+                <ul>
+                    {% for rankArt in rankArts %}
+                        <li><span
+                                {% if forloop.counter <= 3 %}class="no{{ forloop.counter }}"{% endif %}>{{ forloop.counter }}</span>
+                            <a href="/art/show/{{ rankArt.id }}/">{{ rankArt.title }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+
+
+{% endblock %}
+{% block js %}
+    <script>
+
+        function qBuy(artid) {
+            $.getJSON('/art/qbuy/' + artid + "/", function (data) {
+                if (data.code == 101) {
+                    //未登录
+                    if (confirm('当前用户未登录，是否转到登录页面?')) {
+                        // 打开login页面
+                        window.open('/user/login/', target = '_self');
+                    }
+                } else {
+                    $('#qBuyBtn').text(data.msg);
+
+                    //开启 定时器，间隔1秒查询抢读的状态
+                    var qid = setInterval(function () {
+
+                        $.getJSON('/art/buystate/' + artid + "/", function (data) {
+
+                            $('#qBuyBtn').text(data.msg);
+                            if (data.code != 201) {
+                                clearInterval(qid);  //停止查询
+                            }
+
+                            if (data.code == 200) {
+                                // 抢到了
+                                alert('恭喜您，抢读成功!');
+
+                            }else if(data.code==301){
+                                 //同一用户只能抢一次
+                                 alert(data.content);
+                            }
+                        });
+
+                    }, 1000)
+                }
+            })
+
+        }
+    </script>
+{% endblock %}

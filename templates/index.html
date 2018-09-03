@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block css %}
+    <link rel="stylesheet" href="/static/base/css/index.css">
+{% endblock %}
+{% block content %}
+    <!--显示分类-->
+    <div id="category" class="float-left">
+        <ul>
+            <li><a href="/" class="btn {% if p_cate %}btn-success{% else %}btn-danger{% endif %}"><span class="glyphicon glyphicon-tags"
+                                                style="padding-right: 5px"></span>所有</a></li>
+            {% for cate in cates %}
+                <li><a href="/?p_cate={{ cate.id }}" class="btn {% if p_cate == cate.id %}btn-danger{% else %}btn-success{% endif %}">{{ cate.title }}</a></li>
+            {% endfor %}
+            <div class="clearfix"></div>
+        </ul>
+    </div>
+    <div id="art" class="float-left">
+        <ul>
+            {% for art in pager.object_list %}
+                <li>
+                    <dl>
+                        <dt>
+                            <img src="/static/upload/{{ art.cover }}"
+                                 width="120" height="140">
+                        </dt>
+                        <dd><b>{{ art.title|slice:'10' }}
+                            {% if art.title|length > 10 %}..{% endif %}
+                        </b></dd> <!--只显示前10个字符-->
+                        <dd>作者:&nbsp;{{ art.author }}</dd>
+                        <dd  class="text-center"><a href="/art/show/{{ art.id }}/" class="btn btn-primary">阅读</a></dd>
+                    </dl>
+                </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+    <div class="text-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+                <li>
+                    <a {% if pager.has_previous %}href="/?p_cate={{ p_cate }}&page={{ pager.previous_page_number }}"{% endif %} aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% for page in paginator.page_range %}
+                    <li {% if pager.number == page %}class="active" {% endif %}><a href="/?p_cate={{ p_cate }}&page={{ page }}">{{ page }}</a></li>
+                {% endfor %}
+                <li>
+                    <a {% if pager.has_next %}href="/?p_cate={{ p_cate }}&page={{ pager.next_page_number }}"{% endif %} aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+{% endblock %}
