@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'art',
     'DjangoUeditor',  # 加入富文本插件
     'user',
-    'djcelery',  # django-celery模块
+    'djcelery',  # django-celery模块,
+    'rest_framework'
 ]
 
 MIDDLEWARE = [
@@ -192,3 +193,12 @@ BROKER_URL = 'redis://127.0.0.1:6379/7'
 CELERY_IMPORTS = ('helper.tasks', )
 
 # --End Celery--
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

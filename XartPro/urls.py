@@ -7,6 +7,7 @@ from django.shortcuts import render
 import xadmin as admin
 
 from art.models import Category, Art
+from api_ import api_router
 
 
 def index(request):
@@ -41,5 +42,7 @@ urlpatterns = [
     url(r'^ueditor/', include('DjangoUeditor.urls')),
     url(r'^user/', include('user.urls')),
     url(r'^art/', include('art.urls')),
+    url(r'^api-auth/', include('rest_framework.urls')),
+    url(r'^api/', include(api_router.urls)),
     url(r'', index),
 ]
