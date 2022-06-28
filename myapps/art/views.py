@@ -52,20 +52,16 @@ def buystate(request, id):  # 查询抢购的状态
         # 判断用户是否抢到
         if rd.hexists('qbuy', uid):
             gid = rd.hget('qbuy', uid).decode()
-            if int(id) == int(gid):
-                msg = {'code': 200,
-                       'msg': '成功',
-                       'gid': gid}
-            else:
-                msg = {'code': 301,
-                       'msg': '失败',
-                       'content': '同一用户只能抢一部小说'}
+            msg = (
+                {'code': 200, 'msg': '成功', 'gid': gid}
+                if int(id) == int(gid)
+                else {'code': 301, 'msg': '失败', 'content': '同一用户只能抢一部小说'}
+            )
+
+        elif rd.hlen('qbuy') < 5:
+            # 没有达到限量
+            msg = {'code': 201, 'msg': '抢购中'}
         else:
-            # 判断 抢购是否达到限量(5 部小说)
-            if rd.hlen('qbuy') < 5:
-                # 没有达到限量
-                msg = {'code': 201, 'msg': '抢购中'}
-            else:
-                msg = {'code': 300, 'msg': '抢购失败'}
+            msg = {'code': 300, 'msg': '抢购失败'}
 
     return JsonResponse(msg)

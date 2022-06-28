@@ -19,10 +19,10 @@ def buy(uid, gid):
         # 判断用户是否已抢到
         if not rd.hexists('qbuy', uid):
             rd.hset('qbuy', uid, gid)
-            msg = '%s 抢购 %s 成功' % (uid, gid)
+            msg = f'{uid} 抢购 {gid} 成功'
         else:
-            msg = '%s 只能抢购一部商品！' % uid
+            msg = f'{uid} 只能抢购一部商品！'
     else:
-        msg = '%s 抢购 %s 商品失败!' %(uid, gid)
+        msg = f'{uid} 抢购 {gid} 商品失败!'
 
     return msg
