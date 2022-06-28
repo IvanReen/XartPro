@@ -52,7 +52,7 @@ class Category(models.Model):
 
 def save_file_path(instance, filename):
     new_file_name = str(uuid.uuid4()).replace('-', '')+os.path.splitext(filename)[-1]
-    return 'arts/{}'.format(new_file_name)
+    return f'arts/{new_file_name}'
 
 
 class Art(models.Model):

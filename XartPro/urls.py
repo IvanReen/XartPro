@@ -14,10 +14,7 @@ def index(request):
     # 查询所有的一级分类
     cates = Category.objects.filter(parent=None).all()
 
-    # 查询所有文章Art
-    # 获取请求参数的p_cate  一级分类
-    p_cate = request.GET.get('p_cate', '')
-    if p_cate:
+    if p_cate := request.GET.get('p_cate', ''):
         p_cate = int(p_cate)
         arts = Art.objects.filter(category__parent_id=p_cate).all()
     else:
